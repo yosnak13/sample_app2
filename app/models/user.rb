@@ -76,10 +76,9 @@ end
     reset_sent_at < 2.hours.ago
   end
 
-  # 試作feedの定義
-  # 完全な実装は次章の「ユーザーをフォローする」を参照
+  # ユーザーのステータスフィードを返す
   def feed
-    Micropost.where("user_id = ?", id)
+    Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
 
   # ユーザーをフォローする
@@ -96,6 +95,7 @@ end
   def following?(other_user)
     following.include?(other_user)
   end
+  
   
   private
 
